@@ -37,11 +37,27 @@ public class Lexer {
                             break;
                         case ' ':
                             if(!writingString) {
-                                result[key].Add(new(contents, "Identifier"));
-                                contents = "";
+                                if (!string.IsNullOrWhiteSpace(contents))
+                                {
+                                    result[key].Add(new(contents, "Identifier"));
+                                    contents = "";
+                                }
                             }
                             else {
                                 contents += " ";
+                            }
+                            break;
+                        case '.':
+                            if(!writingString) {
+                                if (!string.IsNullOrWhiteSpace(contents))
+                                {
+                                    result[key].Add(new(contents, "Identifier"));
+                                    contents = "";
+                                    result[key].Add(new(".", "Operator"));
+                                }
+                            }
+                            else {
+                                contents += ".";
                             }
                             break;
                         default:

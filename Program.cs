@@ -48,6 +48,8 @@ Operators.ops.Add("import", new ImportOperator());
 Operators.ops.Add("unimport", new UnImportOperator());
 Operators.ops.Add("loop", new LoopOperator());
 Operators.ops.Add("at", new GetByIndexOperator());
+Operators.ops.Add(".", new DotOperator());
+Operators.ops.Add("|", new Division2Operator());
 Operators.ops.Add("lastof", new GetLastOperator());
 Operators.ops.Add("[+]", new AddInOperator());
 Operators.ops.Add("[-]", new RemoveSpecificOperator());

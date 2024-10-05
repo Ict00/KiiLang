@@ -38,6 +38,19 @@ public class DivisionOperator : IOperator
     }
 }
 
+public class Division2Operator : IOperator
+{
+    public int priority {get;set;} = 5;
+    public dynamic Do(Context context, dynamic[] args)
+    {
+        try {
+            return Convert.ToDecimal(Convert.ToDecimal(Ch.VarExist(context.CurrentBlock, args[0]))) / Convert.ToDecimal(Ch.VarExist(context.CurrentBlock, args[1]));
+        } catch {
+            throw new Exception("K0002");
+        }
+    }
+}
+
 public class AddOperator : IOperator
 {
     public int priority {get;set;} = 4;
@@ -191,6 +204,15 @@ public class PrintOperator : IOperator
     }
 }
 
+public class DotOperator : IOperator
+{
+    public int priority {get;set;} = 15;
+    public dynamic Do(Context context, dynamic[] args)
+    {
+        return $"{Ch.VarExist(context.CurrentBlock, args[0].ToString())} {Ch.VarExist(context.CurrentBlock, args[1].ToString())}";
+    }
+}
+
 public class PrintLnOperator : IOperator
 {
     public int priority {get;set;} = 0;
@@ -251,7 +273,7 @@ public class CarryOperator : IOperator
                         foreach(var item in (args[0] as List<dynamic>)) {
                             foreach (var jtem in (args[1] as List<dynamic>)) {
                                 if(Executor.Blocks.Contains(jtem)) {
-                                    Executor.MemoryOfBlocks[jtem].variables[item] = new Variable(Ch.VarExist(context.CurrentBlock, item));
+                                    Executor.MemoryOfBlocks[jtem.ToString()].variables[item.ToString()] = new Variable(Ch.VarExist(context.CurrentBlock, item));
                                 }
                                 else {
                                     throw new Exception("K0004");
@@ -622,7 +644,8 @@ public class ImportOperator : IOperator
                 throw new Exception("K0005");
             }
             return "^";
-        } catch {
+        } catch(Exception ex) {
+            Console.WriteLine(ex);
             throw new Exception("K0002");
         }
     }
